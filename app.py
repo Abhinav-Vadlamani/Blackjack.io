@@ -1,5 +1,5 @@
 # imports
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -15,10 +15,6 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 # Databases
 db = client['CardCountingProject']
 users_collection = db['User info']
-
-@app.route('/trainer', methods=['GET', 'POST'])
-def trainer():
-    return render_template('trainer.html')
 
 # login page
 @app.route('/', methods=['GET', 'POST'])
@@ -76,6 +72,39 @@ def register():
     
     # render register html file
     return render_template('register.html')
+
+@app.route('/trainer', methods=['GET', 'POST'])
+def trainer():
+    return render_template('trainer.html')
+
+def calculate_chips(amount):
+    purple_chips = amount // 500
+    amount = amount % 500
+    black_chips = amount // 100
+    amount = amount % 100
+    green_chips = amount // 25
+    amount = amount % 25
+    red_chips = amount // 5
+    amount = amount % 5
+    white_chips = amount
+
+    return int(white_chips), int(red_chips), int(green_chips), int(black_chips), int(purple_chips)
+
+@app.route('/calculate_chips', methods=['POST'])
+def calculate_chips_route():
+    data = request.get_json()
+    amount = data.get('amount', 0) 
+
+    white, red, green, black, purple = calculate_chips(amount)
+
+    return jsonify({
+        'white_chips': white,
+        'red_chips' : red,
+        'green_chips' : green,
+        'black_chips' : black,
+        'purple_chips' : purple
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True)
