@@ -1,5 +1,5 @@
 # imports
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -15,6 +15,13 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 # Databases
 db = client['CardCountingProject']
 users_collection = db['User info']
+training_collection = db['Training data']
+
+# logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 # login page
 @app.route('/', methods=['GET', 'POST'])
@@ -32,6 +39,7 @@ def login():
             correct_password = existing_user["password"]
             if password == correct_password:
                 flash('Login Successful!')
+                session['username'] = username
                 return redirect(url_for('trainer'))
             else:
                 flash('Incorrect Username/Password.')
@@ -77,7 +85,14 @@ def register():
 def trainer():
     return render_template('trainer.html')
 
+
 def calculate_chips(amount):
+    username = session.get('username')
+    training_collection.insert_one({
+        'username': username,
+        'bankroll': amount
+    })
+
     purple_chips = amount // 500
     amount = amount % 500
     black_chips = amount // 100

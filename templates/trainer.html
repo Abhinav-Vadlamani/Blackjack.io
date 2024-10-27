@@ -123,6 +123,63 @@
             margin-bottom: 10px;
         }
 
+        /* logout button */
+        .logout-button{
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: gray;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .logout-button:hover {
+            background-color: darkred;
+        }
+
+        /* Modal styling */
+        .loginModal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Background with transparency */
+        }
+        .loginModal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .loginModal-button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .confirm-button {
+            background-color: red;
+            color: white;
+        }
+
+        .cancel-button {
+            background-color: gray;
+            color: white;
+        }
+
         /* Ensure the chip buttons are at the bottom */
         footer {
             display: flex;
@@ -135,13 +192,22 @@
     </style>
 </head>
 <body>
+    <!-- Logout button -->
+    <button class="logout-button" onclick="showLogoutModal()">Logout</button>
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to log out?</p>
+            <button class="modal-button confirm-button" onclick="confirmLogout()">Yes</button>
+            <button class="modal-button cancel-button" onclick="hideLogoutModal()">No</button>
+        </div>
+    </div>
 
     <div class="content">
         <!-- Modal for entering money amount -->
         <div class="modal" id="moneyModal">
             <div class="modal-content">
                 <h2>Enter Amount to Play With</h2>
-                <input type="number" id="moneyInput" placeholder="Enter amount" min="1" required step="1">
+                <input type="number" id="moneyInput" name = "moneyAmount" placeholder="Enter amount" min="1" required step="1">
                 <button id="submitMoney">Submit</button>
                 <div class="error-message" id="errorMessage">Please enter a valid amount.</div>
             </div>
@@ -229,6 +295,21 @@
                 errorMessage.style.display = "block";
             }
         };
+
+        function showLogoutModal() {
+            document.getElementById("logoutModal").style.display = "block";
+        }
+
+        // Hide the logout confirmation modal
+        function hideLogoutModal() {
+            document.getElementById("logoutModal").style.display = "none";
+        }
+
+        // Confirm logout
+        function confirmLogout() {
+            // Redirect to the logout route
+            window.location.href = "/logout";
+        }
     </script>
 </body>
 </html>
