@@ -53,6 +53,7 @@ def login():
 # register user page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    session.pop('_flashes', None)
     if request.method == 'POST':
         # Get username and password from the form
         username = request.form['username']
@@ -85,12 +86,11 @@ def register():
 def trainer():
     return render_template('trainer.html')
 
-
 def calculate_chips(amount):
     username = session.get('username')
     training_collection.insert_one({
-        'username': username,
-        'bankroll': amount
+    'username': username,
+    'bankroll': amount
     })
 
     purple_chips = amount // 500
@@ -150,7 +150,38 @@ def update_bankroll():
             {"$set": {"bankroll": new_bankroll}}
     )
 
-    return jsonify({"new_bankroll": new_bankroll})
+    white, red, green, black, purple = calculate_chips(new_bankroll)
+
+    # eliminate redundancies
+    most_recent_entry = training_collection.find_one(
+        {"username": username},
+        sort=[('_id', -1)]  # Sort by _id to get the most recent entry
+    )
+
+    result = training_collection.delete_one({"_id": most_recent_entry['_id']})
+
+    # Return the new bankroll and chip counts
+    return jsonify({
+        "new_bankroll": new_bankroll,
+        "white_chips": white,
+        "red_chips": red,
+        "green_chips": green,
+        "black_chips": black,
+        "purple_chips": purple
+    })
+
+# return current bankroll
+@app.route('/current_bankroll', methods=['GET'])
+def current_bankroll():
+    username = session.get('username')
+    if not username:
+        return jsonify({'bankroll': 0})
+    
+    most_recent_entry = training_collection.find_one(
+        {"username": username},
+        sort=[('_id', -1)]  # Sort by _id to get the most recent entry
+    )
+    return jsonify({'bankroll': most_recent_entry['bankroll']}) if most_recent_entry else jsonify({'bankroll': 0})
 
 
 if __name__ == '__main__':

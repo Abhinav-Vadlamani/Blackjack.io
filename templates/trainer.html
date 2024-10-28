@@ -253,6 +253,16 @@
             color: black;
         }
 
+        /* Bankroll text */
+        #bankroll {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
         /* Ensure the chip buttons are at the bottom */
         footer {
             display: flex;
@@ -344,7 +354,14 @@
         </div>
     </div>
 
+    <div id="bankroll">Bankroll: $0</div>
+
     <script>
+        async function fetchBankroll() {
+            const response = await fetch('/current_bankroll');
+            const data = await response.json();
+            document.getElementById('bankroll').innerText = `Bankroll: $${data.bankroll}`;
+        }
         // Show the modal when the page loads
         window.onload = function() {
             document.getElementById("moneyModal").style.display = "flex";
@@ -376,6 +393,7 @@
                     document.getElementById("green-count").innerText = data.green_chips;
                     document.getElementById("black-count").innerText = data.black_chips;
                     document.getElementById("purple-count").innerText = data.purple_chips;
+                    fetchBankroll();
                 })
                 .catch(error => {
                 console.error("Error:", error);
@@ -422,8 +440,14 @@
                     if (data.error) {
                         console.error("Error updating bankroll:", data.error);
                     } else {
-                        console.log("New bankroll:", data.new_bankroll);
-                        // Update the UI or do something with the new bankroll
+                        // Update chip counts on the screen
+                        document.getElementById("white-count").innerText = data.white_chips;
+                        document.getElementById("red-count").innerText = data.red_chips;
+                        document.getElementById("green-count").innerText = data.green_chips;
+                        document.getElementById("black-count").innerText = data.black_chips;
+                        document.getElementById("purple-count").innerText = data.purple_chips;
+
+                        fetchBankroll();
                     }
                 })
                 .catch(error => console.error("Error:", error));
