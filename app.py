@@ -120,6 +120,5 @@ def calculate_chips_route():
         'purple_chips' : purple
     })
 
-
 if __name__ == '__main__':
     app.run(debug=True)

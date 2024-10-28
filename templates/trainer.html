@@ -180,6 +180,30 @@
             color: white;
         }
 
+        /* Buttons for hit, stand, and update bankroll */
+        .action-buttons {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
         /* Ensure the chip buttons are at the bottom */
         footer {
             display: flex;
@@ -254,6 +278,12 @@
         </div>
     </footer>
 
+    <div class="action-buttons">
+        <button class="action-button" id="hitBtn">Hit</button>
+        <button class="action-button" id="standBtn">Stand</button>
+        <button class="action-button" id="addBankrollBtn">Add Bankroll</button>
+    </div>
+
     <script>
         // Show the modal when the page loads
         window.onload = function() {
@@ -310,6 +340,7 @@
             // Redirect to the logout route
             window.location.href = "/logout";
         }
+
     </script>
 </body>
 </html>
