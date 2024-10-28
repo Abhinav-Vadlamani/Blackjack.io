@@ -204,6 +204,55 @@
         .action-button:hover {
             background-color: #0056b3;
         }
+
+        /* update-bankroll modal */
+        .bankrollModal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bankrollModal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .bankrollModal input {
+            margin-top: 10px;
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .bankrollModal button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .bankrollModal .submit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .bankrollModal .cancel-btn {
+            background-color: #ccc;
+            color: black;
+        }
+
         /* Ensure the chip buttons are at the bottom */
         footer {
             display: flex;
@@ -284,6 +333,17 @@
         <button class="action-button" id="addBankrollBtn">Add Bankroll</button>
     </div>
 
+    <div class="bankrollModal-overlay" id="bankrollModalOverlay">
+        <div class="bankrollModal" id="bankrollModal">
+            <h2>Update Bankroll</h2>
+            <input type="number" id="bankrollInput" name="bankroll" placeholder="Enter additional amount" required step="1">
+            <div>
+                <button class="submit-btn" id="submitBankroll">Submit</button>
+                <button class="cancel-btn" id="cancelBankroll">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Show the modal when the page loads
         window.onload = function() {
@@ -340,6 +400,43 @@
             // Redirect to the logout route
             window.location.href = "/logout";
         }
+
+        document.getElementById("addBankrollBtn").onclick = function() {
+            document.getElementById("bankrollModalOverlay").style.display = "flex";
+        };
+
+        // Submit bankroll button click handler
+        document.getElementById("submitBankroll").onclick = function() {
+            const additionalAmount = document.getElementById("bankrollInput").value;
+
+            if (additionalAmount && additionalAmount > 0) {
+                fetch('/update_bankroll', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({additional_amount: parseInt(additionalAmount)})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error("Error updating bankroll:", data.error);
+                    } else {
+                        console.log("New bankroll:", data.new_bankroll);
+                        // Update the UI or do something with the new bankroll
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+
+                // Hide the modal
+                document.getElementById("bankrollModalOverlay").style.display = "none";
+            }
+        };
+
+    // Cancel bankroll modal
+    document.getElementById("cancelBankroll").onclick = function() {
+        document.getElementById("bankrollModalOverlay").style.display = "none";
+    };
 
     </script>
 </body>

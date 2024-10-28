@@ -120,5 +120,38 @@ def calculate_chips_route():
         'purple_chips' : purple
     })
 
+# Helper function to retrieve the user's current bankroll
+def get_current_bankroll(username):
+    # Retrieve the latest bankroll entry for the user
+    user_data = training_collection.find({"username": username}).sort("_id", -1).limit(1)
+    return user_data[0].get('bankroll', 0)
+
+# New route to handle bankroll updates
+@app.route('/update_bankroll', methods=['POST'])
+def update_bankroll():
+    data = request.get_json()
+    additional_amount = data.get('additional_amount', 0)
+    username = session.get('username')
+
+    # Retrieve the current bankroll
+    current_bankroll = get_current_bankroll(username)
+    
+    # Calculate the new bankroll
+    new_bankroll = current_bankroll + additional_amount
+
+    most_recent_entry = training_collection.find_one(
+        {"username": username},
+        sort=[('_id', -1)]  # Sort by _id to get the most recent entry
+    )
+    
+    # Update the user's bankroll in MongoDB
+    training_collection.update_one(
+            {"_id": most_recent_entry['_id']},
+            {"$set": {"bankroll": new_bankroll}}
+    )
+
+    return jsonify({"new_bankroll": new_bankroll})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
