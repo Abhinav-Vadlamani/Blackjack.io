@@ -95,20 +95,38 @@
             color: #000;
         }
 
+        .white-chip:hover{
+            border: 10px solid #ccc;
+        }
+
         .red-chip {
             background-color: #ff0000;
+        }
+
+        .red-chip:hover{
+            border: 10px solid #ccc;
         }
 
         .green-chip {
             background-color: #008000;
         }
 
+        .green-chip:hover{
+            border: 10px solid #ccc;
+        }
+
         .black-chip {
             background-color: #000000;
+        }
+        .black-chip:hover{
+            border: 10px solid #ccc;
         }
 
         .purple-chip {
             background-color: #800080;
+        }
+        .purple-chip:hover{
+            border: 10px solid #ccc;
         }
 
         .chip-value {
@@ -310,7 +328,11 @@
             <!-- Red Chip -->
             <div class="chip">
                 <div class="chip-count" id="red-count">0</div>
-                <button class="chip-button red-chip" id="red-chip">Red Chips</button>
+                <button class="chip-button red-chip" id="red-chip">
+                    Red 
+                    <br>
+                    Chips
+                </button>
                 <div class="chip-value">$5</div>
             </div>
 
@@ -460,6 +482,61 @@
     // Cancel bankroll modal
     document.getElementById("cancelBankroll").onclick = function() {
         document.getElementById("bankrollModalOverlay").style.display = "none";
+    };
+
+    // chip button pressed
+    function buttonPressed(typeButton){
+        console.log(typeButton)
+        fetch('/chip_pressed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({button_type: typeButton})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok')
+            }
+            return response.json()
+        })
+        .then(data => {
+            console.log("Chip Counts:", data);
+            document.getElementById("white-count").innerText = data.white_chips;
+            document.getElementById("red-count").innerText = data.red_chips;
+            document.getElementById("green-count").innerText = data.green_chips;
+            document.getElementById("black-count").innerText = data.black_chips;
+            document.getElementById("purple-count").innerText = data.purple_chips;
+            fetchBankroll();
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    };
+
+    // white chip
+    document.getElementById("white-chip").onclick = function () {
+        buttonPressed("white")
+    };
+
+    // red chip
+    document.getElementById("red-chip").onclick = function () {
+        buttonPressed("red")
+    };
+
+    // green chip
+    document.getElementById("green-chip").onclick = function () {
+        buttonPressed("green")
+    };
+
+    // black chip
+    document.getElementById("black-chip").onclick = function () {
+        buttonPressed("black")
+    };
+
+    // purple chip
+    document.getElementById("purple-chip").onclick = function () {
+        buttonPressed("purple")
     };
 
     </script>
