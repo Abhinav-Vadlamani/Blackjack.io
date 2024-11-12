@@ -274,7 +274,10 @@ def current_buyin():
 
 @app.route('/past_data')
 def pastData():
-    return render_template('pastData.html')
+    username = session.get('username')
+    data = training_collection.find({"username": username}, {"_id": 0, "username": 0})
+
+    return render_template('pastData.html', data=list(data), username=username)
 
 if __name__ == '__main__':
     app.run(debug=True)

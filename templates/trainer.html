@@ -102,6 +102,7 @@
             const data = await response.json();
             document.getElementById('bankroll').innerText = `Bankroll: $${data.bankroll}`;
         }
+
         // Show the modal when the page loads
         window.onload = function() {
             document.getElementById("moneyModal").style.display = "flex";

@@ -9,3 +9,51 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid beige;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+    color: white;
+}
+h1 {
+    text-align: center;
+    color: beige;
+}
+.table-container{
+    overflow-y: auto;
+}
+.backpage-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 200px; /* Add space between the buttons */
+    align-items: flex-start; /* Align buttons to the left, adjust if needed */
+    width: auto; /* Prevent the container from stretching across the page */
+  }
+/* logout button */
+.backpage-button{
+    margin-bottom: 10px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: gray;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 120px; /* Prevent the button from expanding */
+    height: 40px;
+    align-self: flex-start; /* Align each button to the left */
+    text-align: center; 
+    
+}
+.backpage-button:hover {
+    background-color: darkred;
+}

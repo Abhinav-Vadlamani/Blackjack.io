@@ -6,3 +6,27 @@
     <title>Past Data - blackjack.io</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='pastData.css') }}">
 </head>
+<body>
+    <h1>{{ username }}'s Past Data</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    {% for key in data[0].keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in data %}
+                    <tr>
+                        {% for value in record.values() %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="backpage-button" onclick="window.location.href='trainer'">Return to Trainer</div>
+</body>
