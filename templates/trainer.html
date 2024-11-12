@@ -9,7 +9,7 @@
 <body>
     <!-- Logout button -->
     <button class="logout-button" onclick="showLogoutModal()">Logout</button>
-    <button class="logout-button" onclick="window.location.href='past_data'">Past Data</button>
+    <button class="logout-button" onclick="saveStateAndNavigate('past_data')">Past Data</button>
     <div id="logoutModal" class="modal">
         <div class="modal-content">
             <p>Are you sure you want to log out?</p>
@@ -97,16 +97,53 @@
     <div id="bankroll">Bankroll: $0</div>
 
     <script>
-        async function fetchBankroll() {
-            const response = await fetch('/current_bankroll');
-            const data = await response.json();
-            document.getElementById('bankroll').innerText = `Bankroll: $${data.bankroll}`;
+
+        function saveState() {
+            const state = {
+                whiteChips: document.getElementById("white-count").innerText,
+                redChips: document.getElementById("red-count").innerText,
+                greenChips: document.getElementById("green-count").innerText,
+                blackChips: document.getElementById("black-count").innerText,
+                purpleChips: document.getElementById("purple-count").innerText,
+                bankroll: document.getElementById("bankroll").innerText.replace('Bankroll: $', '')
+            };
+            localStorage.setItem('trainerState', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const savedState = localStorage.getItem('trainerState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                document.getElementById("white-count").innerText = state.whiteChips;
+                document.getElementById("red-count").innerText = state.redChips;
+                document.getElementById("green-count").innerText = state.greenChips;
+                document.getElementById("black-count").innerText = state.blackChips;
+                document.getElementById("purple-count").innerText = state.purpleChips;
+                document.getElementById("bankroll").innerText = `Bankroll: $${state.bankroll}`;
+                return true;
+            }
+            return false;
+        }
+
+        function saveStateAndNavigate(path) {
+            saveState();
+            window.location.href = path;
         }
 
         // Show the modal when the page loads
         window.onload = function() {
-            document.getElementById("moneyModal").style.display = "flex";
+            const hasState = loadState();
+            if (!hasState) {
+                document.getElementById("moneyModal").style.display = "flex";
+            }
         };
+
+        async function fetchBankroll() {
+            const response = await fetch('/current_bankroll');
+            const data = await response.json();
+            document.getElementById('bankroll').innerText = `Bankroll: $${data.bankroll}`;
+            saveState();
+        }
 
         // Handle the submit button click
         document.getElementById("submitMoney").onclick = function() {
@@ -135,6 +172,7 @@
                     document.getElementById("black-count").innerText = data.black_chips;
                     document.getElementById("purple-count").innerText = data.purple_chips;
                     fetchBankroll();
+                    saveState();
                 })
                 .catch(error => {
                 console.error("Error:", error);
@@ -157,6 +195,7 @@
         // Confirm logout
         function confirmLogout() {
             // Redirect to the logout route
+            localStorage.removeItem('trainerState');
             window.location.href = "/logout";
         }
 
@@ -227,6 +266,7 @@
             document.getElementById("black-count").innerText = data.black_chips;
             document.getElementById("purple-count").innerText = data.purple_chips;
             fetchBankroll();
+            saveState();
         })
         .catch(error => {
             console.error("Error:", error);
