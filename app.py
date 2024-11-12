@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
-
+from datetime import datetime
 
 # Setting up flask and app
 app = Flask(__name__)
@@ -94,7 +94,8 @@ def calculate_chips(amount, buyin_initial):
     training_collection.insert_one({
     'username': username,
     'bankroll': amount,
-    'buyin': buyin_initial
+    'buyin': buyin_initial,
+    'Timestamp': datetime.now().strftime("%B %d, %Y @ %I:%M:%S %p")
     })
 
     purple_chips = amount // 500
@@ -276,7 +277,7 @@ def pastData():
     username = session.get('username')
     data = training_collection.find({"username": username}, {"_id": 0, "username": 0})
 
-    return render_template('pastData.html', data=list(data), username=username)
+    return render_template('pastData.html', data=list(data.sort("Timestamp", -1)), username=username)
 
 if __name__ == '__main__':
     app.run(debug=True)

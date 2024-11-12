@@ -13,7 +13,16 @@
             <thead>
                 <tr>
                     {% for key in data[0].keys() %}
-                        <th>{{ key }}</th>
+                        <th>
+                            <!-- {{ key }} -->
+                            {% if key == 'buyin' %}
+                                Total Buy-In
+                            {% elif key == 'bankroll' %}
+                                Overall Ending Bankroll
+                            {% else %}
+                                {{ key }}
+                            {% endif %}
+                        </th>
                     {% endfor %}
                 </tr>
             </thead>
