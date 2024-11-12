@@ -272,7 +272,9 @@ def current_buyin():
     )
     return jsonify({'buyin': most_recent_entry['buyin']}) if most_recent_entry else jsonify({'buyin': 0})
 
-
+@app.route('/past_data')
+def pastData():
+    return render_template('pastData.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
