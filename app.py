@@ -193,6 +193,13 @@ def chip_pressed():
     # return chip values for updating
     white, red, green, black, purple = calculate_chips(current_bankroll, 0)
 
+    # eliminate reduncancies
+    most_recent_entry = training_collection.find_one(
+        {"username": username},
+        sort=[('_id', -1)]  # Sort by _id to get the most recent entry
+    )
+    _ = training_collection.delete_one({"_id": most_recent_entry['_id']})
+
     # checking if button pressed, but 0 chips are there
     if (chip_type == "white" and white == 0) or (chip_type == "red" and red == 0) or (chip_type == "green" and green == 0) or (chip_type == "black" and black == 0) or (chip_type == "purple" and purple == 0):
         return jsonify({
@@ -203,14 +210,6 @@ def chip_pressed():
             "black_chips": black,
             "purple_chips": purple
         })
-    
-    # eliminate reduncancies
-    most_recent_entry = training_collection.find_one(
-        {"username": username},
-        sort=[('_id', -1)]  # Sort by _id to get the most recent entry
-    )
-
-    _ = training_collection.delete_one({"_id": most_recent_entry['_id']})
 
     # now update bankroll in database and on screen
     # also update chip counts

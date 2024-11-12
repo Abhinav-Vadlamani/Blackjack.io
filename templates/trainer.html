@@ -131,12 +131,27 @@
         }
 
         // Show the modal when the page loads
-        window.onload = function() {
-            const hasState = loadState();
-            if (!hasState) {
+        window.onload = async function() {
+        const hasState = loadState();
+        
+        // Check current bankroll from database
+        try {
+            const response = await fetch('/current_bankroll');
+            const data = await response.json();
+            
+            // Show modal if either localStorage is empty OR bankroll is 0/empty in database
+            if (!hasState || data.bankroll === 0) {
                 document.getElementById("moneyModal").style.display = "flex";
+            } else {
+                // If we have data, update the display
+                document.getElementById('bankroll').innerText = `Bankroll: $${data.bankroll}`;
             }
-        };
+        } catch (error) {
+            console.error("Error checking bankroll:", error);
+            // If there's an error fetching from database, show modal
+            document.getElementById("moneyModal").style.display = "flex";
+        }
+    };
 
         async function fetchBankroll() {
             const response = await fetch('/current_bankroll');
