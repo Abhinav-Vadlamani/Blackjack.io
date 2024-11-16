@@ -3,6 +3,7 @@ import helper
 hit = "hit"
 stand = "stand"
 double = "double"
+surrender = "surrender"
 
 def seventeen_count(dealer_up_card: str):
     """
@@ -29,6 +30,11 @@ def sixteen_count(dealer_up_card: str):
     if dealer_value_card in stand_set:
         return stand
     
+    # if dealer up card is 9, 10, face cards, or ace, surrender
+    surrender_set = {'9', '10', 'Jack', 'Queen', 'King', 'Ace'}
+    if dealer_value_card in stand_set:
+        return surrender
+    
     # else, hit
     else:
         return hit
@@ -47,6 +53,11 @@ def fifteen_count(dealer_up_card: str):
     stand_set = {'2', '3', '4', '5', '6'}
     if dealer_value_card in stand_set:
         return stand
+    
+    # if dealer up card is 10 or a face card, surrender
+    surrender_set = {'10', 'Jack', 'Queen', 'King'}
+    if dealer_value_card in surrender_set:
+        return surrender
     
     # else, hit
     else:
