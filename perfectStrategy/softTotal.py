@@ -1,4 +1,4 @@
-import helper
+from .helper import *
 
 hit = "hit"
 stand = "stand"
@@ -22,7 +22,7 @@ def ace_eight(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is 6, then double
     if dealer_value_card == "6":
@@ -38,7 +38,7 @@ def ace_seven(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 2-6, then double
     double_set = {'2', '3', '4', '5', '6'}
@@ -62,7 +62,7 @@ def ace_six(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 3-6, then double
     double_set = {'3', '4', '5', '6'}
@@ -81,7 +81,7 @@ def ace_five(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 4-6, then double
     double_set = {'4', '5', '6'}
@@ -100,7 +100,7 @@ def ace_four(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 4-6, then double
     double_set = {'4', '5', '6'}
@@ -119,7 +119,7 @@ def ace_three(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 5-6, then double
     double_set = {'5', '6'}
@@ -138,7 +138,7 @@ def ace_two(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 5-6, then double
     double_set = {'5', '6'}

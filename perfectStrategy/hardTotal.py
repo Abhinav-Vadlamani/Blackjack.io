@@ -1,4 +1,4 @@
-import helper
+from .helper import *
 
 hit = "hit"
 stand = "stand"
@@ -23,7 +23,7 @@ def sixteen_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 2-6, stand
     stand_set = {'2', '3', '4', '5', '6'}
@@ -47,7 +47,7 @@ def fifteen_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
      
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 2-6, stand
     stand_set = {'2', '3', '4', '5', '6'}
@@ -71,7 +71,7 @@ def fourteen_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
      
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 2-6, stand
     stand_set = {'2', '3', '4', '5', '6'}
@@ -90,7 +90,7 @@ def thirteen_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
      
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is from 2-6, stand
     stand_set = {'2', '3', '4', '5', '6'}
@@ -109,7 +109,7 @@ def twelve_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if card is from 4-6, stand
     stand_set = {'4', '5', '6'}
@@ -138,7 +138,7 @@ def ten_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up card is a ten, face card, or ace, then hit
     hit_set = {'10', 'Jack', 'Queen', 'King', 'Ace'}
@@ -157,7 +157,7 @@ def nine_count(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if dealer up is from 3-6, then double
     double_set = {'3', '4', '5', '6'}

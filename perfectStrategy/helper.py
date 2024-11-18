@@ -6,7 +6,7 @@ def return_number_value(card: str):
     card: a string of the card
     """
     
-    str_split_array = str.split(" ")
+    str_split_array = card.split()
 
     # return desired element
     # can't return number because of 

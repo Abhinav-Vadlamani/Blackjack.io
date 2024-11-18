@@ -1,5 +1,5 @@
 # This file focuses on pair splitting basic strategy
-import helper
+from .helper import *
 
 split = "split"
 dont_split = "dont split"
@@ -32,7 +32,7 @@ def nine_pair_splitting(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if 2-6 or 8-9, return split
     split_set = {'2', '3', '4', '5', '6', '8', '9'}
@@ -61,7 +61,7 @@ def seven_pair_splitting(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if 2-7, return split
     split_set = {'2', '3', '4', '5', '6', '7'}
@@ -80,10 +80,10 @@ def six_pair_splitting(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
-    # if 2-6, return split
-    split_set = {'2', '3', '4', '5', '6'}
+    # if 3-6, return split
+    split_set = {'3', '4', '5', '6'}
     if dealer_value_card in split_set:
         return split
     
@@ -108,7 +108,6 @@ def four_pair_splitting(dealer_up_card: str):
     Parameters:
     dealer_up_card: a string of the current up card of the dealer
     """
-
     return dont_split
 
 def three_pair_splitting(dealer_up_card: str):
@@ -119,7 +118,7 @@ def three_pair_splitting(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if 4-7, return split
     split_set = {'4', '5', '6', '7'}
@@ -138,7 +137,7 @@ def two_pair_splitting(dealer_up_card: str):
     dealer_up_card: a string of the current up card of the dealer
     """
 
-    dealer_value_card = helper.return_number_value(dealer_up_card)
+    dealer_value_card = return_number_value(dealer_up_card)
 
     # if 4-7, return split
     split_set = {'4', '5', '6', '7'}
