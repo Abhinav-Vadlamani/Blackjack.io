@@ -286,6 +286,22 @@ body {
     color: white;
 }
 
+/* redistribute input styling */
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .form-row label {
+    width: 100px; /* Adjust width to align inputs */
+    margin-right: 10px;
+  }
+
+  .form-row input {
+    flex: 1; /* Allows inputs to grow */
+  }
+
 /* Ensure the chip buttons are at the bottom */
 footer {
     display: flex;

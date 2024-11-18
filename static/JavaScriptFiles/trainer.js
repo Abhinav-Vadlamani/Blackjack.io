@@ -165,7 +165,12 @@ function buttonPressed(typeButton){
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({button_type: typeButton})
+        body: JSON.stringify({button_type: typeButton, white: document.getElementById("white-count").innerText, 
+                            red: document.getElementById("red-count").innerText, 
+                            green: document.getElementById("green-count").innerText,
+                            black: document.getElementById("black-count").innerText,
+                            purple: document.getElementById("purple-count").innerText
+        })
     })
     .then(response => {
         if (!response.ok) {
@@ -211,4 +216,51 @@ document.getElementById("black-chip").onclick = function () {
 // purple chip
 document.getElementById("purple-chip").onclick = function () {
     buttonPressed("purple")
+};
+
+// redistribute functionalities
+document.getElementById("redistributeBankrollBtn").onclick = function () {
+    document.getElementById("redistributeModalOverlay").style.display = "flex"
+};
+
+document.getElementById("submitRedistribute").onclick = async function () {
+    // retrieve user inputs
+    const whiteChipAmount = Number(document.getElementById('WhiteInput').value);
+    const redChipAmount = Number(document.getElementById('RedInput').value);
+    const greenChipAmount = Number(document.getElementById('GreenInput').value);
+    const blackChipAmount = Number(document.getElementById('BlackInput').value);
+    const purpleChipAmount = Number(document.getElementById('PurpleInput').value);
+
+    // retrieve bankroll
+    const fetchBankroll = await fetch('/current_bankroll');
+    const data = await fetchBankroll.json();
+    const bankroll = data.bankroll;
+
+    // compute chip values
+    const white_chip_value = whiteChipAmount;
+    const red_chip_value = redChipAmount * 5;
+    const green_chip_value = greenChipAmount * 25;
+    const black_chip_value = blackChipAmount * 100;
+    const purple_chip_value = purpleChipAmount * 500;
+
+    // check if is valid redistribute
+    const isValid = white_chip_value + red_chip_value + green_chip_value + black_chip_value + purple_chip_value === bankroll;
+
+    if (isValid){
+        redistributeError.style.display = "none";
+        document.getElementById('white-count').innerText = whiteChipAmount;
+        document.getElementById('red-count').innerText = redChipAmount;
+        document.getElementById('green-count').innerText = greenChipAmount;
+        document.getElementById('black-count').innerText = blackChipAmount;
+        document.getElementById('purple-count').innerText = purpleChipAmount;
+        saveState();
+        document.getElementById("redistributeModalOverlay").style.display = "none"
+    }
+    else{
+        redistributeError.style.display = "block"
+    }
+};
+
+document.getElementById("cancelRedistribute").onclick = function () {
+    document.getElementById("redistributeModalOverlay").style.display = "none"
 };

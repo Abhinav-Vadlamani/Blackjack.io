@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
+from bs4 import BeautifulSoup
 
 # Setting up flask and app
 app = Flask(__name__)
@@ -180,7 +181,7 @@ def update_bankroll():
         "purple_chips": purple
     })
 
-# White chip route
+# Chip pressed route
 @app.route('/chip_pressed', methods=['POST'])
 def chip_pressed():
     username = session.get('username')
@@ -192,7 +193,11 @@ def chip_pressed():
     change_in_bankroll = chip_dict[chip_type]
 
     # return chip values for updating
-    white, red, green, black, purple = calculate_chips(current_bankroll, 0)
+    white = int(data.get('white'))
+    red = int(data.get('red'))
+    green = int(data.get('green'))
+    black = int(data.get('black'))
+    purple = int(data.get('purple'))
 
     # eliminate reduncancies
     most_recent_entry = training_collection.find_one(

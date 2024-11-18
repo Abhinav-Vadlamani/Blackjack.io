@@ -80,7 +80,7 @@
         <button class="action-button" id="doubleBtn">Double</button>
         <button class="action-button" id="surrenderBtn">Surrender</button>
         <button class="action-button" id="splitBtn">Split</button>
-        <button class="action-button" id="redistributeBankroll">Redistribute Bankroll</button>
+        <button class="action-button" id="redistributeBankrollBtn">Redistribute Bankroll</button>
         <button class="action-button" id="addBankrollBtn">Add Bankroll</button>
     </div>
 
@@ -96,6 +96,44 @@
     </div>
 
     <div id="bankroll">Bankroll: $0</div>
+
+    <div class="bankrollModal-overlay" id="redistributeModalOverlay">
+        <div class="bankrollModal" id="redistributeModal">
+            <h2>Redistribute Bankroll</h2>
+
+            <div class="form-row">
+                <label for="whiteInput">White Chips</label>
+                <input type="number" id="WhiteInput" name="whiteInput" value="0" step="1">
+            </div>
+
+            <div class="form-row">
+                <label for="redInput">Red Chips</label>
+                <input type="number" id="RedInput" name="redInput" value="0" step="1">
+            </div>
+
+            <div class="form-row">
+                <label for="greenInput">Green Chips</label>
+                <input type="number" id="GreenInput" name="greenInput" value="0" step="1">
+            </div>
+
+            <div class="form-row">
+                <label for="blackInput">Black Chips</label>
+                <input type="number" id="BlackInput" name="blackInput" value="0" step="1">
+            </div>
+
+            <div class="form-row">
+                <label for="purpleInput">Purple Chips</label>
+                <input type="number" id="PurpleInput" name="purpleInput" value="0" step="1">
+            </div>
+            <div>
+                <button class="submit-btn" id="submitRedistribute">Submit</button>
+                <button class="cancel-btn" id="cancelRedistribute">Cancel</button>
+            </div>
+
+            <div class="error-message" id="redistributeError">Sum of Chip Values are incorrect</div>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='JavaScriptFiles/trainer.js') }}"></script>
 </body>
 </html>
